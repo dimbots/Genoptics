@@ -1,0 +1,21 @@
+NGS-0859	01.10.2020	ILLUMINA	HIGH 1X75	8 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 41	WTuntr A input	Mus musculus	92.82	39707152
+NGS-0860	01.10.2020	ILLUMINA	HIGH 1X75	8 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 43	WTuntr B input	Mus musculus	92.82	31526003
+NGS-0861	01.10.2020	ILLUMINA	HIGH 1X75	8 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 44	WT/TCP A input	Mus musculus	92.82	34332350
+NGS-0862	01.10.2020	ILLUMINA	HIGH 1X75	8 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 46	WT/TCP B input	Mus musculus	92.82	31373586
+NGS-0863	01.10.2020	ILLUMINA	HIGH 1X75	8 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 47	Set8KO/TCP A input	Mus musculus	92.82	33224994
+NGS-0864	01.10.2020	ILLUMINA	HIGH 1X75	8 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 48	Set8KO/TCP B input	Mus musculus	92.82	34367656
+NGS-0865	01.10.2020	ILLUMINA	HIGH 1X75	10 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 9	WTuntr A_H3K27ac	Mus musculus	92.82	40209786
+NGS-0866	01.10.2020	ILLUMINA	HIGH 1X75	10 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 10	WTuntr B_H3K27ac	Mus musculus	92.82	39497465
+NGS-0867	01.10.2020	ILLUMINA	HIGH 1X75	11 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 24	WT/TCP A_H3K27ac	Mus musculus	92.82	37392336
+NGS-0868	01.10.2020	ILLUMINA	HIGH 1X75	11 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 32	WT/TCP B_H3K27ac	Mus musculus	92.82	37064605
+NGS-0869	01.10.2020	ILLUMINA	HIGH 1X75	8 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 35	Set8KO/TCP A_H3K27ac	Mus musculus	92.82	19291991
+NGS-0870	01.10.2020	ILLUMINA	HIGH 1X75	14 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 17	Set8KO/TCP B_H3K27ac	Mus musculus	92.82	39296937
+NGS-0871	01.10.2020	ILLUMINA	HIGH 1X75	14 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 36	WT/TCP A_ORC1	Mus musculus	92.82	6082885
+NGS-0872	01.10.2020	ILLUMINA	HIGH 1X75	11 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 26	WT/TCP B_ORC1	Mus musculus	92.82	4512299
+NGS-0873	01.10.2020	ILLUMINA	HIGH 1X75	14 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 42	Set8KO/TCP A_ORC1	Mus musculus	92.82	5011044
+NGS-0874	01.10.2020	ILLUMINA	HIGH 1X75	11 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 31	Set8KO/TCP B_ORC1	Mus musculus	92.82	4648612
+NGS-0875	01.10.2020	ILLUMINA	HIGH 1X75	14 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 30	WT/TCP A_γH2AX	Mus musculus	92.82	393020
+NGS-0876	01.10.2020	ILLUMINA	HIGH 1X75	14 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 38	WT/TCP B_γH2AX	Mus musculus	92.82	4836102
+NGS-0877	01.10.2020	ILLUMINA	HIGH 1X75	11 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 39	Set8KO/TCP A_γH2AX	Mus musculus	92.82	6090689
+NGS-0878	01.10.2020	ILLUMINA	HIGH 1X75	14 cycles	ChIP SEQ	I.Talianidis	O.Galanopoupou	NebNext 40	Set8KO/TCP B_γH2AX	Mus musculus	92.82	5225009
+
