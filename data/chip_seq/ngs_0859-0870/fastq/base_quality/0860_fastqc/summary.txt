@@ -1,0 +1,11 @@
+PASS	Basic Statistics	0860.fastq.gz
+PASS	Per base sequence quality	0860.fastq.gz
+WARN	Per tile sequence quality	0860.fastq.gz
+PASS	Per sequence quality scores	0860.fastq.gz
+FAIL	Per base sequence content	0860.fastq.gz
+PASS	Per sequence GC content	0860.fastq.gz
+PASS	Per base N content	0860.fastq.gz
+WARN	Sequence Length Distribution	0860.fastq.gz
+PASS	Sequence Duplication Levels	0860.fastq.gz
+PASS	Overrepresented sequences	0860.fastq.gz
+PASS	Adapter Content	0860.fastq.gz
