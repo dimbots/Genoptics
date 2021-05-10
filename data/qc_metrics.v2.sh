@@ -2,26 +2,26 @@
 # QC Metrics (Deeptools) + Normalization
 
 #	SET DIR QC_METRICS
-#	mkdir qc_metrics
+	mkdir qc_metrics
 	cd qc_metrics/
 
-#ln -s ../mapping/*.bam .
-#ln -s ../mapping/*.bam.bai .
+ln -s ../mapping/*.bam .
+ln -s ../mapping/*.bam.bai .
 
-#	echo "RENAME FILES FROM 0869... TO CONDITIONS (e.g Set8KO_A_input.) IN DIRECTORY (qc_metrics). WHEN COMPLETE TYPE [done]."
-#	read response
+	echo "RENAME FILES FROM 0869... TO CONDITIONS (e.g Set8KO_A_input.) IN DIRECTORY (qc_metrics). WHEN COMPLETE TYPE [done]."
+	read response
 
 # CREATE MULTIBAM FILE
-#multiBamSummary bins --bamfiles *. -p 7 -o multiBam.npz
+multiBamSummary bins --bamfiles *. -p 7 -o multiBam.npz
 
 # PLOT HEATMAP
-#plotCorrelation -in multiBam.npz --corMethod spearman --colorMap Blues --plotHeight 11.5 --plotWidth 13  --whatToPlot heatmap --plotNumbers -o SpearmanCor_readCounts.png
+plotCorrelation -in multiBam.npz --corMethod spearman --colorMap Blues --plotHeight 11.5 --plotWidth 13  --whatToPlot heatmap --plotNumbers -o SpearmanCor_readCounts.png
 
 # PLOT READ COVERAGE
-#plotCoverage --bamfiles *. --skipZeros -p 7 --verbose -o Coverage_plot.png
+plotCoverage --bamfiles *. --skipZeros -p 7 --verbose -o Coverage_plot.png
 
 # PLOT FINGERPRINT
-#plotFingerprint -b *. -p 7 -plot finger_print_all.png
+plotFingerprint -b *. -p 7 -plot finger_print_all.png
 
 #########################################################################################
 
@@ -31,52 +31,52 @@
 
 
 
-#	echo "--------------------------------------------------------------------------"
-#	echo "				START NORMALIZATION				"
-#	echo "--------------------------------------------------------------------------"
+	echo "--------------------------------------------------------------------------"
+	echo "				START NORMALIZATION				"
+	echo "--------------------------------------------------------------------------"
 
 
-#	echo "TYPE METHOD OF NORMALIZATION. RPKM / BPM / RPGC"
-#	read method
+	echo "TYPE METHOD OF NORMALIZATION. RPKM / BPM / RPGC"
+	read method
 
-#	if
-#		[[ $method = "BPM" ]]
-#			then
+	if
+		[[ $method = "BPM" ]]
+			then
 
-#			for i in $(ls *.)
+			for i in $(ls *.)
 
-#			do
-#				bw="$i.bw"
-#				bamCoverage --bam $i -o $bw --binSize 10 --outFileFormat bigwig --normalizeUsing BPM -p 7 --extendReads 200
-#			done
-#	fi
+			do
+				bw="$i.bw"
+				bamCoverage --bam $i -o $bw --binSize 10 --outFileFormat bigwig --normalizeUsing BPM -p 7 --extendReads 200
+			done
+	fi
 
-#	if
-#		[[ $method = "RPKM" ]]
-#			then
+	if
+		[[ $method = "RPKM" ]]
+			then
 
-#			for i in $(ls *.)
+			for i in $(ls *.)
 
-#		`	do
-#				bw="$ibw"
-#				bamCoverage --bam $i -o $bw --binSize 10 --outFileFormat bigwig --normalizeUsing RPKM -p 7 --extendReads 200
-#			done
-#	fi
+		`	do
+				bw="$ibw"
+				bamCoverage --bam $i -o $bw --binSize 10 --outFileFormat bigwig --normalizeUsing RPKM -p 7 --extendReads 200
+			done
+	fi
 
-#	if
-#		[[ $method = "RPGC" ]]
-#			then
+	if
+		[[ $method = "RPGC" ]]
+			then
 
-#			for i in $(ls *.)
+			for i in $(ls *.)
 
-#			do
-#				bw="$ibw"
-#				bamCoverage --bam $i -o $bw --binSize 10 --outFileFormat bigwig --normalizeUsing RPGC -p 7 --effectiveGenomeSize 2407883318 --extendReads 200
-#			done
-#	fi
+			do
+				bw="$ibw"
+				bamCoverage --bam $i -o $bw --binSize 10 --outFileFormat bigwig --normalizeUsing RPGC -p 7 --effectiveGenomeSize 2407883318 --extendReads 200
+			done
+	fi
 
-#mkdir normalization
-#mv *.bw normalization/
+mkdir normalization
+mv *.bw normalization/
 
 #########################################################################################
 
