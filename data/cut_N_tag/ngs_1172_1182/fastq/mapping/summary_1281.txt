@@ -1,1 +1,6 @@
-/media/dimbo/disk/GenOptics/data/cut_N_tag/ngs_1272-1282/fastq/mapping/summary_1281.txt
+6831826 reads; of these:
+  6831826 (100.00%) were unpaired; of these:
+    224642 (3.29%) aligned 0 times
+    6405328 (93.76%) aligned exactly 1 time
+    201856 (2.95%) aligned >1 times
+96.71% overall alignment rate
