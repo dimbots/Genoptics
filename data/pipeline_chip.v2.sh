@@ -10,9 +10,9 @@
 for ((x = $1; x <= $2; x++))
 
 do
-	sample_fastq="0${x}.fastq.gz"
-	sample_trimmed="0${x}.T.fastq.gz"
-	fastq="0${x}.fastq.gz"
+	sample_fastq="${x}.fastq.gz"
+	sample_trimmed="${x}.T.fastq.gz"
+	fastq="${x}.fastq.gz"
 
 	fastqc $sample_fastq
 
@@ -53,23 +53,28 @@ fastqc *.gz
 
 
 	echo "start mapping with hisat"
+	echo "set path to reference genome"
+
+	read genome
+
 	mkdir mapping
 	ln -s trimmed/* .
 
 for ((x = $1; x <= $2; x++))
 
 do
-	sample="0${x}.testing"
-	summary="summary_0${x}.txt"
-	fastq_input="0${x}.T.fastq.gz"
-	input_sam="0${x}.sam"
-	output_bam_tmp="0${x}.bam.tmp"
-	output_bam="0${x}.bam"
-	output_sorted_bam="0${x}.sorted.bam"
+	sample="${x}.testing"
+	summary="summary_${x}.txt"
+	fastq_input="${x}.T.fastq.gz"
+	input_sam="${x}.sam"
+	output_bam_tmp="${x}.bam.tmp"
+	output_bam="${x}.bam"
+	output_sorted_bam="${x}.sorted.bam"
 
 echo "processing sample $fastq_input"
 
-hisat2 --threads 7 --summary-file $summary -x /media/dimbo/disk/GenOptics/data/genomes/mus_genome_hisat_index/mus_genome -U $fastq_input -S $input_sam
+# mapping Hisat2
+hisat2 --threads 7 --summary-file $summary -x $genome -U $fastq_input -S $input_sam
 
 # keep only unique
 samtools view -h -F 4 $input_sam | awk 'substr($1, 0, 1)=="@" || $0 !~ /ZS:/' | samtools view -h -b > $output_bam_tmp
@@ -104,13 +109,13 @@ echo "mapping complete"
 for ((x = $1; x <= $2; x++))
 
 do
-	sum_file="summary_0${x}.txt"
+	sum_file="summary_${x}.txt"
 
 	uniq="uniq.tmp"
 	repeat="repeat.tmp"
 	uniq_repeat="uniq_repeat.tsv"
 	identifier="identifier.tsv"
-	id="0${x}.sorted.bam"
+	id="${x}.sorted.bam"
 
 	awk 'NR % 4 == 0' $sum_file | awk '{print $2}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' >> $uniq
 	awk 'NR % 5 == 0' $sum_file | awk '{print $2}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' >> $repeat
@@ -238,7 +243,11 @@ ln -s ../mapping/*.bam.bai .
 	# Exculde black listed regions
 
 	final_peaks="$out_file.bed"
-	bedtools intersect -v -a $out_file -b mm10-blacklist.v2.bed > $final_peaks
+
+	echo "set path to blacklist_regions"
+	read blacklist
+
+	bedtools intersect -v -a $out_file -b $blacklist > $final_peaks
 
 		fi
 
