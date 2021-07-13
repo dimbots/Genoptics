@@ -51,7 +51,6 @@ fastqc *.gz
 
 #	MAPPING HISAT
 
-
 	tput setaf 1; tput bold; echo "start mapping with hisat"
 	tput setaf 2; tput bold; echo "set path to reference genome"
 
@@ -412,9 +411,49 @@ mv *.bw normalization/
 mv $out_plot ../
 
 
+#########################################################################################
+
+#	ANNOTATING REGION IN THE GENOME
+
+#       HOMER
+
+#	SET DIR FASTQ
+	cd ../../
+#	MAKE DIR ANNOTATIONS
+	mkdir annotation
+	cd annotation/
+
+	tput setaf 2; tput bold; echo "SET PATH TO REFERENCE GENOME"
+	read ref_genome
+	tput setaf 2; tput bold; echo "SET PATH TO GENES.GTF FILE"
+	read genes_gtf
+
+	ln -s ../peak_calling/merged_peaks/overlapped_* .
+
+	while [[ $PEAKS != "none" ]]
+
+		do
+
+        tput setaf 2; tput bold; echo "TYPE PEAKS.BED FILES ELSE TYPE [none]"
+	read PEAKS
+	tput setaf 2; tput bold; echo "TYPE ANNOATED FILE E.G(annotations_Set8Ko.tsv) ELSE TYPE [none]"
+	read out_annotation
+
+		if      [[ $PEAKS = "none" ]]
+			then
+			break
+		else
+
+		annotatePeaks.pl $PEAKS $ref_genome -gtf $genes_gtf > $out_annotation
+	fi
+	done
 
 
+	tput setaf 1; tput bold; echo "-------------------"
+	tput setaf 1; tput bold; echo "ANNOTATION COMPLETE"
+        tput setaf 1; tput bold; echo "-------------------"
 
+#########################################################################################
 
 
 
