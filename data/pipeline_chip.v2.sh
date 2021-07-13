@@ -18,7 +18,7 @@ do
 
 	zcat $fastq | echo $((`wc -l`/4)) >> read_count.tmp
 
-	echo "Trimming - $sample_fastq.gz"
+`	tput setaf 1; tput bold; echo "Trimming - $sample_fastq.gz"
 
 	TrimmomaticSE -threads 5 $sample_fastq $sample_trimmed SLIDINGWINDOW:4:18 LEADING:28 TRAILING:28 MINLEN:36 >> log_Trimming 2>&1
 	paste info.tsv read_count.tmp > fastq_info.tsv
@@ -52,8 +52,8 @@ fastqc *.gz
 #	MAPPING HISAT
 
 
-	echo "start mapping with hisat"
-	echo "set path to reference genome"
+	tput setaf 1; tput bold; echo "start mapping with hisat"
+	tput setaf 2; tput bold; echo "set path to reference genome"
 
 	read genome
 
@@ -71,7 +71,7 @@ do
 	output_bam="${x}.bam"
 	output_sorted_bam="${x}.sorted.bam"
 
-echo "processing sample $fastq_input"
+	tput setaf 1; tput bold; echo "processing sample $fastq_input"
 
 # mapping Hisat2
 hisat2 --threads 7 --summary-file $summary -x $genome -U $fastq_input -S $input_sam
@@ -97,7 +97,7 @@ done
 
 mv *.bam *.bai *.txt mapping/
 
-echo "mapping complete"
+	tput setaf 1; tput bold; echo "mapping complete"
 
 #############################################################################################################################################
 
@@ -161,17 +161,20 @@ cd ../
 # Merge bam files (replicate 1 & 2) Treatment and control
 # samtools merge Set8KO_TCP_input.merged.bam Set8KO_TCP_A_input.bam Set8KO_TCP_B_input.bam
 
-	echo "---------------------------------------------------------------------------------------------------------------"
-	echo "----------------BAR PLOT FOR MAPPING RESULST COMPLETE!plot mapped results finished!----------------------------"
-	echo "---------------------------------------------------------------------------------------------------------------"
-
-#############################################################################################################################################
-
-# QC Metrics (Deeptools) + Normalization
+	tput setaf 1; tput bold; echo "---------------------------------------------------------------------------------------------------------------"
+	tput setaf 1; tput bold; echo "----------------BAR PLOT FOR MAPPING RESULST COMPLETE!plot mapped results finished!----------------------------"
+	tput setaf 1; tput bold; echo "---------------------------------------------------------------------------------------------------------------"
 
 #############################################################################################################################################
 
 # PEAK CALLING
+
+#############################################################################################################################################
+
+	tput setaf 1; tput bold; echo "---------------------------------------------------------------------------------------------------------------"
+        tput setaf 1; tput bold; echo "----------------------------------INITIATE PEAK CALLING ANALYSIS-----------------------------------------------"
+        tput setaf 1; tput bold; echo "---------------------------------------------------------------------------------------------------------------"
+
 
 mkdir peak_calling
 
@@ -181,21 +184,21 @@ ln -s /media/dimbo/disk/GenOptics/data/genomes/genes_info/mm10-blacklist.v2.bed 
 ln -s ../mapping/*.bam .
 ln -s ../mapping/*.bam.bai .
 
-	echo "--------------------------------------------------------------------------------------------------------"
-	echo "                                      CALL PEAKS USING MACS2                                            "
-	echo "--------------------------------------------------------------------------------------------------------"
+	tput setaf 1; tput bold; echo "--------------------------------------------------------------------------------------------------------"
+	tput setaf 1; tput bold; echo "                                      CALL PEAKS USING MACS2                                            "
+	tput setaf 1; tput bold; echo "--------------------------------------------------------------------------------------------------------"
 
 		while [[ $treatment != "none" ]]
 
 		do
 
-		echo "TYPE TREATMENT BAM FILE. else type [none]"
+		tput setaf 2; tput bold; echo "TYPE TREATMENT BAM FILE. else type [none]"
 		read treatment
 
-		echo "TYPE INPUT BAM FILE. else type [none]"
+		tput setaf 2; tput bold; echo "TYPE INPUT BAM FILE. else type [none]"
 		read input
 
-		echo "TYPE OUT PEAKS FILE. FORMAT:``condition_rep_A.`` else type [none]"
+		tput setaf 2; tput bold; echo "TYPE OUT PEAKS FILE. FORMAT:``condition_rep_A.`` else type [none]"
 		read out
 
 			if	[[ $treatment = "none" ]]
@@ -218,17 +221,17 @@ ln -s ../mapping/*.bam.bai .
 
 		do
 
-		echo "----------------------------------"
-		echo "MERGE PEAKS FROM REPLICATE A AND B"
-		echo "----------------------------------"
+		tput setaf 1; tput bold; echo "----------------------------------"
+		tput setaf 1; tput bold; echo "MERGE PEAKS FROM REPLICATE A AND B"
+		tput setaf 1; tput bold; echo "----------------------------------"
 
-		echo "type peaks from replicate A. else type [none]"
+		tput setaf 2; tput bold; echo "type peaks from replicate A. else type [none]"
 		read repA
 
-		echo "type peaks from replicate B. else type [none]"
+		tput setaf 2; tput bold; echo "type peaks from replicate B. else type [none]"
 		read repB
 
-		echo "type overlapped peaks out file.  Format:  [overlapped_condition.tmp]"
+		tput setaf 2; tput bold; echo "type overlapped peaks out file. Format: [overlapped_condition]. else type [none]"
 		read out_file
 
 			if      [[ $repA = "none" ]]
@@ -244,7 +247,7 @@ ln -s ../mapping/*.bam.bai .
 
 	final_peaks="$out_file.bed"
 
-	echo "set path to blacklist_regions"
+	tput setaf 2; tput bold; echo "set path to blacklist_regions. else type [none]"
 	read blacklist
 
 	bedtools intersect -v -a $out_file -b $blacklist > $final_peaks
@@ -254,7 +257,214 @@ ln -s ../mapping/*.bam.bai .
 		done
 
 	mv *.bed merged_peaks/
-rm	*.tmp
+	rm *.tmp
+
+
+####################################################################################################################
+
+# QC Metrics (Deeptools) + Normalization
+
+####################################################################################################################
+
+		tput setaf 1; tput bold; echo "--------------------------------------------------------------------"
+                tput setaf 1; tput bold; echo "--------------------------------------------------------------------"
+		tput setaf 1; tput bold; echo "                                                                    "
+		tput setaf 1; tput bold; echo "                   INITIATE QC METRICS ANALYSIS                     "
+		tput setaf 1; tput bold; echo "                                                                    "
+		tput setaf 1; tput bold; echo "--------------------------------------------------------------------"
+                tput setaf 1; tput bold; echo "--------------------------------------------------------------------"
+
+#	START IN FASTQ DIRECTORY
+	cd ..
+#	SET DIR QC_METRICS
+	mkdir qc_metrics
+	cd qc_metrics/
+
+	ln -s ../mapping/*.bam .
+	ln -s ../mapping/*.bam.bai .
+
+	tput setaf 1; tput bold; echo "RENAME FILES FROM 0869... TO CONDITIONS (e.g Set8KO_A_input.) IN DIRECTORY (qc_metrics). WHEN COMPLETE TYPE [done]."
+	read response
+
+# CREATE MULTIBAM FILE
+multiBamSummary bins --bamfiles *.bam -p 7 -o multiBam.npz
+
+# PLOT HEATMAP
+plotCorrelation -in multiBam.npz --corMethod spearman --colorMap Blues --plotHeight 11.5 --plotWidth 13  --whatToPlot heatmap --plotNumbers -o SpearmanCor_readCounts.png
+
+# PLOT READ COVERAGE
+plotCoverage --bamfiles *.bam --skipZeros -p 7 --verbose -o Coverage_plot.png
+
+# PLOT FINGERPRINT
+plotFingerprint -b *.bam -p 7 -plot finger_print_all.png
+
+#########################################################################################
+
+#	NORMALIZE BAM FILES
+
+#	CONVERT BAM TO BIGWIG (NORMALIZATION)
+
+
+
+	tput setaf 1; tput bold; echo "--------------------------------------------------------------------------"
+	tput setaf 1; tput bold; echo "				START NORMALIZATION				"
+	tput setaf 1; tput bold; echo "--------------------------------------------------------------------------"
+
+
+	tput setaf 2; tput bold; echo "TYPE METHOD OF NORMALIZATION. RPKM / BPM / RPGC"
+	read method
+
+	if
+	[[ $method = "BPM" ]]
+			then
+
+			for i in $(ls *.bam)
+
+			do
+				bw="$i.bw"
+				bamCoverage --bam $i -o $bw --binSize 10 --outFileFormat bigwig --normalizeUsing BPM -p 7 --extendReads 200
+			done
+	fi
+
+
+
+		if
+
+		[[ $method = "RPKM" ]]
+		then
+			for i in $(ls *.bam)
+
+			do
+
+			bw="$i.bw"
+			bamCoverage --bam $i -o $bw --binSize 10 --outFileFormat bigwig --normalizeUsing RPKM -p 7 --extendReads 200
+
+			done
+		fi
+
+
+
+	if
+	[[ $method = "RPGC" ]]
+	then
+
+		for i in $(ls *.bam)
+
+		do
+		bw="$i.bw"
+		bamCoverage --bam $i -o $bw --binSize 10 --outFileFormat bigwig --normalizeUsing RPGC -p 7 --effectiveGenomeSize 2407883318 --extendReads 200
+
+		done
+	fi
+
+mkdir normalization
+mv *.bw normalization/
+
+#########################################################################################
+
+# 			COMPUTEMATRIX
+
+#	SET DIR NORMALIZATION
+	cd normalization/
+
+	tput setaf 1; tput bold; echo "          START COMPUTEMATRIX            "
+
+	tput setaf 1; tput bold; echo "-----------------------------------------"
+	tput setaf 1; tput bold; echo "   TYPE BIGWIG FILES (TREATMENT-INPUT)"
+	tput setaf 1; tput bold; echo "-----------------------------------------"
+
+	tput setaf 2; tput bold; echo "TYPE TREATMENT BW FILE. ELSE TYPE [none]"
+	read bw1
+	tput setaf 2; tput bold; echo "TYPE INPUT BW FILE. ELSE TYPE [none]"
+	read bw2
+	tput setaf 2; tput bold; echo "TYPE TREATMENT BW FILE. ELSE TYPE [none]"
+	read bw3
+	tput setaf 2; tput bold; echo "TYPE INPUT BW FILE. ELSE TYPE [none]"
+	read bw4
+	tput setaf 2; tput bold; echo "TYPE OUT MATRIX FILE. E.G (matrix.0865_0866)"
+	read out_matrix
+	tput setaf 2; tput bold; echo "TYPE OUT REGIONG FILE. E.G (out_regions.0865_0866)"
+	read out_regions
+
+	tput setaf 2; tput bold; echo "Set path to genes.bed file"
+	read genes
+
+	tput setaf 2; tput bold; echo "TYPE NUMBER OF BASE PAIRS BEFORE TSS"
+	read before_tss
+	tput setaf 2; tput bold; echo "TYPE NUMBER OF BASE PAIRS AFTER TSS"
+	read after_tss
+
+	if [[ "$bw3" != "none" && "bw4" != "none" ]]
+		then
+	tput setaf 1; tput bold; echo "RUNNING WITH 4 SAMPLES"
+		computeMatrix reference-point -b $before_tss -a $after_tss -R $genes -S $bw1 $bw2 $bw3 $bw4 --skipZeros -o $out_matrix --outFileSortedRegions $out_regions -p 7
+
+		out_plot="Heatmap_$out_matrix"
+		plotHeatmap -m $out_matrix -out $out_plot --colorMap Blues
+	else
+	tput setaf 1; tput bold; echo "RUNNING WITH 2 SAMPLES"
+		computeMatrix reference-point -b $before_tss -a $after_tss -R $genes -S $bw1 $bw2 --skipZeros -o $out_matrix --outFileSortedRegions $out_regions -p 7
+
+		out_plot="Heatmap_$out_matrix"
+		plotHeatmap -m $out_matrix -out $out_plot --colorMap Blues
+	fi
+
+mv $out_plot ../
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #############################################################################################################################################
@@ -285,5 +495,13 @@ rm	*.tmp
 #python ROSE_main.py --genome MM10 --i H3K27ac_WTuntr_FU.mergedPeaks.gff --rankby WTuntr_H3K27ac.merged.bam --control WTuntr_input.merged.bam --out SE_WTuntr/
 
 
+######## Super enhancer plots
+
+#awk '{ total += $6 } END { print total/NR }' SE_sorted.tsv
 
 
+#computeMatrix scale-regions -b 5000 -a 5000 --regionBodyLength 2780 -R TE.bed -S Set8KO_TCP_A_H3K27ac.bw --skipZeros -o output_matrix --outFileSortedRegions output_regions -p 6
+
+
+
+#plotProfile --averageType mean --regionsLabel Set8KO --plotType lines --colors red --startLabel start --endLabel end --samplesLabel "Genome Wide Average" --yAxisLabel "reads per genome coverage, RPGC" --yMax 60 --plotWidth 6 -m output_matrix -out example

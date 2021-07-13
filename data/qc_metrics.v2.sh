@@ -1,14 +1,15 @@
 #!/bin/bash
 # QC Metrics (Deeptools) + Normalization
 
+#	START IN FASTQ DIRECTORY
 #	SET DIR QC_METRICS
 	mkdir qc_metrics
 	cd qc_metrics/
 
-ln -s ../mapping/*.bam .
-ln -s ../mapping/*.bam.bai .
+	ln -s ../mapping/*.bam .
+	ln -s ../mapping/*.bam.bai .
 
-	echo "RENAME FILES FROM 0869... TO CONDITIONS (e.g Set8KO_A_input.) IN DIRECTORY (qc_metrics). WHEN COMPLETE TYPE [done]."
+	tput setaf 1; tput bold; echo "RENAME FILES FROM 0869... TO CONDITIONS (e.g Set8KO_A_input.) IN DIRECTORY (qc_metrics). WHEN COMPLETE TYPE [done]."
 	read response
 
 # CREATE MULTIBAM FILE
@@ -31,12 +32,12 @@ plotFingerprint -b *.bam -p 7 -plot finger_print_all.png
 
 
 
-	echo "--------------------------------------------------------------------------"
-	echo "				START NORMALIZATION				"
-	echo "--------------------------------------------------------------------------"
+	tput setaf 1; tput bold; echo "--------------------------------------------------------------------------"
+	tput setaf 1; tput bold; echo "				START NORMALIZATION				"
+	tput setaf 1; tput bold; echo "--------------------------------------------------------------------------"
 
 
-	echo "TYPE METHOD OF NORMALIZATION. RPKM / BPM / RPGC"
+	tput setaf 2; tput bold; echo "TYPE METHOD OF NORMALIZATION. RPKM / BPM / RPGC"
 	read method
 
 	if
@@ -92,39 +93,43 @@ mv *.bw normalization/
 #	SET DIR NORMALIZATION
 	cd normalization/
 
-	echo "          START COMPUTEMATRIX            "
+	tput setaf 1; tput bold; echo "          START COMPUTEMATRIX            "
 
-	echo "-----------------------------------------"
-	echo "   TYPE BIGWIG FILES (TREATMENT-INPUT)"
-	echo "-----------------------------------------"
+	tput setaf 1; tput bold; echo "-----------------------------------------"
+	tput setaf 1; tput bold; echo "   TYPE BIGWIG FILES (TREATMENT-INPUT)"
+	tput setaf 1; tput bold; echo "-----------------------------------------"
 
-	echo "TYPE TREATMENT BW FILE. ELSE TYPE [none]"
+	tput setaf 2; tput bold; echo "TYPE TREATMENT BW FILE. ELSE TYPE [none]"
 	read bw1
-	echo "TYPE INPUT BW FILE. ELSE TYPE [none]"
+	tput setaf 2; tput bold; echo "TYPE INPUT BW FILE. ELSE TYPE [none]"
 	read bw2
-	echo "TYPE TREATMENT BW FILE. ELSE TYPE [none]"
+	tput setaf 2; tput bold; echo "TYPE TREATMENT BW FILE. ELSE TYPE [none]"
 	read bw3
-	echo "TYPE INPUT BW FILE. ELSE TYPE [none]"
+	tput setaf 2; tput bold; echo "TYPE INPUT BW FILE. ELSE TYPE [none]"
 	read bw4
-	echo "TYPE OUT MATRIX FILE. E.G (matrix.0865_0866)"
+	tput setaf 2; tput bold; echo "TYPE OUT MATRIX FILE. E.G (matrix.0865_0866)"
 	read out_matrix
-	echo "TYPE OUT REGIONG FILE. E.G (out_regions.0865_0866)"
+	tput setaf 2; tput bold; echo "TYPE OUT REGIONG FILE. E.G (out_regions.0865_0866)"
 	read out_regions
 
-	echo "Set path to genes.bed file"
+	tput setaf 2; tput bold; echo "Set path to genes.bed file"
 	read genes
 
+	tput setaf 2; tput bold; echo "TYPE NUMBER OF BASE PAIRS BEFORE TSS"
+	read before_tss
+	tput setaf 2; tput bold; echo "TYPE NUMBER OF BASE PAIRS AFTER TSS"
+	read after_tss
 
 	if [[ "$bw3" != "none" && "bw4" != "none" ]]
 		then
-		echo "RUNNING WITH 4 SAMPLES"
-		computeMatrix reference-point -b 5000 -a 5000 -R $genes -S $bw1 $bw2 $bw3 $bw4 --skipZeros -o $out_matrix --outFileSortedRegions $out_regions -p 7
+	tput setaf 1; tput bold; echo "RUNNING WITH 4 SAMPLES"
+		computeMatrix reference-point -b $before_tss -a $after_tss -R $genes -S $bw1 $bw2 $bw3 $bw4 --skipZeros -o $out_matrix --outFileSortedRegions $out_regions -p 7
 
 		out_plot="Heatmap_$out_matrix"
 		plotHeatmap -m $out_matrix -out $out_plot --colorMap Blues
 	else
-		echo "RUNNING WITH 2 SAMPLES"
-		computeMatrix reference-point -b 5000 -a 5000 -R $genes -S $bw1 $bw2 --skipZeros -o $out_matrix --outFileSortedRegions $out_regions -p 7
+	tput setaf 1; tput bold; echo "RUNNING WITH 2 SAMPLES"
+		computeMatrix reference-point -b $before_tss -a $after_tss -R $genes -S $bw1 $bw2 --skipZeros -o $out_matrix --outFileSortedRegions $out_regions -p 7
 
 		out_plot="Heatmap_$out_matrix"
 		plotHeatmap -m $out_matrix -out $out_plot --colorMap Blues
