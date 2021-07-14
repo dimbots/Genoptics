@@ -18,7 +18,7 @@ do
 
 	zcat $fastq | echo $((`wc -l`/4)) >> read_count.tmp
 
-`	tput setaf 1; tput bold; echo "Trimming - $sample_fastq.gz"
+	tput setaf 1; tput bold; echo "Trimming - $sample_fastq.gz"
 
 	TrimmomaticSE -threads 5 $sample_fastq $sample_trimmed SLIDINGWINDOW:4:18 LEADING:28 TRAILING:28 MINLEN:36 >> log_Trimming 2>&1
 	paste info.tsv read_count.tmp > fastq_info.tsv
